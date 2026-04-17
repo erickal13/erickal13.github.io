@@ -3,75 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pokédex 🐾</title>
+    <title>Pokédex</title>
     <style>
-        body {
-            background-color: #121212;
-            color: #f0f0f0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            font-family: 'Arial', sans-serif;
-        }
-        h1 {
-            font-size: 3em;
-            margin-bottom: 20px;
-        }
-        input[type="text"] {
-            padding: 10px;
-            width: 250px;
-            border: 2px solid #f0f0f0;
-            border-radius: 5px;
-            outline: none;
-            animation: blink-caret 0.75s step-end infinite;
-            background-color: #333;
-            color: #f0f0f0;
-        }
-        @keyframes blink-caret {
-            from, to { border-color: transparent; }
-            50% { border-color: #f0f0f0; }
-        }
-        button {
-            padding: 10px 15px;
-            margin-top: 10px;
-            border: none;
-            border-radius: 5px;
-            background-color: #f00;
-            color: white;
-            cursor: pointer;
-            transition: box-shadow 0.3s ease;
-        }
-        button:hover {
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
-        }
-        .results {
-            margin-top: 20px;
-            min-height: 50px;
-            width: 300px;
-            background-color: #222;
-            border-radius: 5px;
-            padding: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+        body { font-family: Arial, sans-serif; }
+        .type-badge { display: inline-block; padding: 5px; margin: 2px; border-radius: 5px; color: white; }
+        /* Example colors for Pokémon types */
+        .grass { background-color: #78C850; }
+        .fire { background-color: #F08030; }
+        .water { background-color: #6890F0; }
+        /* Add more types as needed */
     </style>
 </head>
 <body>
-    <h1>Pokédex 🥅</h1>
-    <input type="text" placeholder="Search Pokémon..." id="pokemonInput" />
-    <button id="searchButton">Search</button>
-    <div class="results" id="resultsArea">No results yet!</div>
+    <h1>Pokédex</h1>
+    <button id="random-button">Random Pokémon</button>
+    <div id="pokemon-info"></div>
+
     <script>
-        document.getElementById('searchButton').addEventListener('click', function() {
-            const input = document.getElementById('pokemonInput').value;
-            const resultsArea = document.getElementById('resultsArea');
-            // Fetch Pokémon data logic would go here. For now, we use a placeholder response.
-            resultsArea.textContent = input ? `You searched for: ${input}` : 'Please enter a Pokémon name.';
-        });
+        const pokeInfoDiv = document.getElementById('pokemon-info');
+        const randomButton = document.getElementById('random-button');
+
+        async function fetchRandomPokemon() {
+            const id = Math.floor(Math.random() * 898) + 1; // There are 898 Pokémon
+            const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+            const data = await response.json();
+            displayPokemon(data);
+        }
+
+        function displayPokemon(pokemon) {
+            const types = pokemon.types.map(type => `<span class='type-badge ${type.type.name}'>${type.type.name}</span>`).join(' ');
+            const stats = pokemon.stats.map(stat => `<p>${stat.stat.name}: ${stat.base_stat}</p>`).join(' ');
+            pokeInfoDiv.innerHTML = `<h2>${pokemon.name}</h2>
+                                     <img src='https://pokeapi.co/media/sprites/pokemon/${pokemon.id}.png' alt='${pokemon.name}' />
+                                     <p>Height: ${pokemon.height / 10} m</p>
+                                     <p>Weight: ${pokemon.weight / 10} kg</p>
+                                     <div>Types: ${types}</div>
+                                     <div>Stats: ${stats}</div>`;
+        }
+
+        randomButton.addEventListener('click', fetchRandomPokemon);
     </script>
 </body>
 </html>
