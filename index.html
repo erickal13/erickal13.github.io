@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokédex 🐾</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+        }
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            width: 250px;
+            border: 2px solid #f0f0f0;
+            border-radius: 5px;
+            outline: none;
+            animation: blink-caret 0.75s step-end infinite;
+            background-color: #333;
+            color: #f0f0f0;
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #f0f0f0; }
+        }
+        button {
+            padding: 10px 15px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #f00;
+            color: white;
+            cursor: pointer;
+            transition: box-shadow 0.3s ease;
+        }
+        button:hover {
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
+        }
+        .results {
+            margin-top: 20px;
+            min-height: 50px;
+            width: 300px;
+            background-color: #222;
+            border-radius: 5px;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pokédex 🥅</h1>
+    <input type="text" placeholder="Search Pokémon..." id="pokemonInput" />
+    <button id="searchButton">Search</button>
+    <div class="results" id="resultsArea">No results yet!</div>
+    <script>
+        document.getElementById('searchButton').addEventListener('click', function() {
+            const input = document.getElementById('pokemonInput').value;
+            const resultsArea = document.getElementById('resultsArea');
+            // Fetch Pokémon data logic would go here. For now, we use a placeholder response.
+            resultsArea.textContent = input ? `You searched for: ${input}` : 'Please enter a Pokémon name.';
+        });
+    </script>
+</body>
+</html>
